@@ -3,53 +3,41 @@
 
 By Scaled Inference
 
-​1.​ Introduction
+[​1.​ Introduction](#1.introduction)
+* [1.1.​Purpose](#1.1.purpose)
+* [​1.2.​Amp.ai](#1.2.amp.ai)
+* [1.3.​Amp Browser Client](#1.3.ampBrowserClient)
 
-​1.1.​ Purpose
+​[2.​ Getting Started](2.gettingStarted)
 
-​1.2.​ Amp.ai
+​[3.​ Usage](#3.usage)
+* [​3.1.Initialization](#3.1.initialization)
+  + [​3.1.1.​ Initialization Choices](#3.1.1.initializationChoices)
+  + [3.1.2.​ Configurations](#3.1.2.configurations)
+  + [3.1.3.​ Advanced Settings](#3.1.3.advancedSettings)
 
-​1.3.​ Browser Client
+* [3.2.​ Observe](#3.2.observe)
+  + ​[3.2.1.​ Options](#3.2.1.options)
+  + [3.2.2.​ Callback](#3.2.2.callback)
 
-​2.​ Getting Started
+* ​[3.3.​ Decide](#3.3.decide)
+  + [3.3.2.​ Candidates combination](#3.3.2.candidatesCombinations)
+  + [3.3.3.​ Options](#3.3.3.options)
+  + [3.3.4. Serialization / Deserialization](#3.3.4.serialization/deserialization)
 
-​3.​ Usage
+[​4.​ Troubleshooting](#4.troubleshooting)
 
-​3.1.​ Initialization
-
-​3.1.1.​ Initialization choices
-
-​3.1.2.​ Configurations
-
-​3.1.3.​ Advanced settings
-
-​3.2.​ Observe
-
-​3.2.1.​ Options
-
-​3.2.2.​ Callback
-
-​3.3.​ Decide
-
-​3.3.2.​ Candidates combination
-
-​3.3.3.​ Options
-
-3.3.4. Serialization / Deserialization
-
-​4.​ Troubleshooting
 
 ## ​1.​ Introduction
-
-​1.1.​ Purpose
+### 1.1.​ Purpose
 
 This document will provide you with an overview of integrating your web-application with _Amp.ai_ using our Amp Browser Client.  We also provide clients for your mobile iOS and Android applications as well as your server-side Java, Node and Python applications.
 
-​1.2.​ Amp.ai
+### 1.2.​ Amp.ai
 
 _Amp.ai_ is a cloud AI platform that can enhance any software application that integrates with it  by making intelligent, goal-driven, context-sensitive decisions. Think of it as A/B testing on steroids.  While A/B testing provides information about what choice to take across all users, Amp.ai will provide you with context-aware decisions that continue to improve and provide you with the best decision based on the context they are in.
 
-​1.3.​ Amp Browser Client
+### ​1.3.​ Amp Browser Client
 
 The _Amp browser client_ consists of a set of functions that enable a web application to integrate with Amp to report observations and request intelligent decisions.
 
@@ -75,7 +63,7 @@ The following snippet illustrates a typical web-application integration with Amp
 
 The browser client consists of three key components: initialization, observe, and decide. The initialization creates an amp instance that represents a single session in a project. The amp instance then provides two key methods amp.observe (to make observations) and amp.decide (to make decisions). To support cross-platform integration, amp also provides serialize and deserialize methods.
 
-​3.1.​ Initialization
+### ​3.1.​ Initialization
 
 To support the needs of various applications, there are different ways to
 
@@ -83,7 +71,7 @@ To support the needs of various applications, there are different ways to
 - Set its configurations
 - Set its advanced settings.
 
-​3.1.1.​ Initialization choices
+#### 3.1.1.​ Initialization choices
 
 There are three initialization choices: _synchronous_, _asynchronous single-line_, and _asynchronous custom_.
 
@@ -106,7 +94,7 @@ When used this way, any calls to amp.observe() and amp.decide() will be invalid 
 
 Effectively, this initialization puts all usages of the amp instance into a replay queue, which are replayed after it is initialized. Note that in this case, the timeout specified for amp.observe() and amp.decide() needs to include the waiting time while they are in the replay queue.
 
-​3.1.2.​ Configurations
+#### 3.1.2.​ Configurations
 
 For each amp instance, the following configurations are available (i.e., in amp.config).
 
@@ -162,7 +150,7 @@ This overrides the configuration values specified during initialization. Of note
 | amp.config.get(&quot;samplingRate&quot;)amp.config.getAll() |
 | --- |
 
-​3.1.3.​ Advanced settings
+#### ​3.1.3.​ Advanced settings
 
 **builtinEvents**
 
@@ -180,7 +168,7 @@ The following events are supported by default with the Browser client:
 
 These can be overridden if you choose not to observe some or any of these.
 
-​3.2.​ Observe
+### 3.2.​ Observe
 
 The amp.observe method has the following signature (i.e., in JsDoc):
 
@@ -210,7 +198,7 @@ For example, the statement
 
 sends the event userInfo with 3 properties lang, country and premium.
 
-​3.2.1.​ Options
+#### 3.2.1.​ Options
 
 amp.observe() only supports a single option timeout, which uses amp.config.timeout by default. To override, use something like:
 
@@ -218,7 +206,7 @@ amp.observe() only supports a single option timeout, which uses amp.config.timeo
 amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;, premium:false},{timeout:500}); |
 | --- |
 
-​3.2.2.​ Callback
+#### ​3.2.2.​ Callback
 
 Use callback to handle errors:
 
@@ -226,7 +214,7 @@ Use callback to handle errors:
 amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;, premium:false},{},function(err){  if(err) {    console.log(err);  }}); |
 | --- |
 
-​3.3.​ Decide
+### 3.3.​ Decide
 
 The amp.decide method has the following signature (i.e., in JsDoc)
 
@@ -244,7 +232,7 @@ For example, the statement
 
 requests a decision with the event name textStyle, which asks Amp: &quot;which of the (three) candidate(s) is the best for my metrics&quot;. The decision returned can then be used to change the behavior of your application.
 
-​3.3.1.​ Candidates combination
+#### 3.3.1.​ Candidates combination
 
 In the above example, the argument candidates is specified as an array. Alternatively, we also support using an object to specify the candidates as _all possible combinations_ of a few properties. For example,
 
@@ -258,7 +246,7 @@ is equivalent to its array specification (of length 6):
 
 When combining the Object, we combine by lexically ordering the keys as noted above in the example.
 
-​3.3.2.​ Options
+#### 3.3.2.​ Options
 
 amp.decide() supports two options: timeout, and ttl. To set, use something like:
 
@@ -273,7 +261,7 @@ amp.decide() supports two options: timeout, and ttl. To set, use something like:
 
 **ttl.** The amount of time that the decision returned is cached.
 
-​3.3.3.​ Policies
+#### 3.3.3.​ Policies
 
 amp.decide() makes decision through two types of policies: _Default_ and _Amped_.
 
@@ -282,17 +270,17 @@ amp.decide() makes decision through two types of policies: _Default_ and _Amped_
 
 The proportion of sessions that uses the Amped vs the Default policies, a.k.a. the _policy allocation_, can be controlled from the Amp console. Furthermore, both the policy allocation and the most current Amped policy (continuously being updated by Amp) will be automatically _synced_ to the client, such that they are honored by the decisions made at the client. An amp will do _policy syncing_ when an amp instance is created, if the time specified by syncInterval has passed since the last syncing. If the instance stays alive past the time specified by syncInterval, it will sync again.
 
-3.3.4. Serialization / Deserialization
+#### 3.3.4. Serialization / Deserialization
 
 Sessions can be serialized and deserialized by setting the `sessionTTL` in the Amp instance configuration.  This allows you to set the duration of a session in your application.  Some sessions are defined by user which can have a very long TTL, while others may be defined by each visit to the application, which have a much shorter TTL.  When setting the TTL on the session, it is also recommended to set the TTL on the `decide()` call to the same amount for shorter session definitions.  This will allow for a cohesive user experience.
 
 Another use case for serializing the session may be that you want to persist a session across platforms, for example, from you web application to your mobile application.
 
-Serialization
+**Serialization**
 
 By serializing your session and persisting it on a server, your mobile application can pull it down and use it to continue the session on the mobile device.
 
-Deserialization
+**Deserialization**
 
 Upon pulling down the persisted session, you can use the `deserialize()` on the session instance to continue where you left off.
 
