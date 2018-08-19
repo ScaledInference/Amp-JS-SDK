@@ -3,29 +3,29 @@
 
 By Scaled Inference
 
-[​1.​ Introduction](#1.introduction)
-* [1.1.​Purpose](#1.1.purpose)
-* [​1.2.​Amp.ai](#1.2.amp.ai)
-* [1.3.​Amp Browser Client](#1.3.ampBrowserClient)
+[​1.​ Introduction](#1-introduction)
+* [1.1.​Purpose](#11-purpose)
+* [​1.2.​Amp.ai](#12-ampai)
+* [1.3.​Amp Browser Client](#13-amp-browser-client)
 
-​[2.​ Getting Started](2.gettingStarted)
+​[2.​ Getting Started](#2-getting-started)
 
-​[3.​ Usage](#3.usage)
-* [​3.1.Initialization](#3.1.initialization)
-  + [​3.1.1.​ Initialization Choices](#3.1.1.initializationChoices)
-  + [3.1.2.​ Configurations](#3.1.2.configurations)
-  + [3.1.3.​ Advanced Settings](#3.1.3.advancedSettings)
+​[3.​ Usage](#3-usage)
+* [​3.1.Initialization](#31-initialization)
+  + [​3.1.1.​ Initialization Choices](#311-initialization-choices)
+  + [3.1.2.​ Configurations](#312-configurations)
+  + [3.1.3.​ Advanced Settings](#313-advanced-settings)
 
-* [3.2.​ Observe](#3.2.observe)
-  + ​[3.2.1.​ Options](#3.2.1.options)
-  + [3.2.2.​ Callback](#3.2.2.callback)
+* [3.2.​ Observe](#32-observe)
+  + ​[3.2.1.​ Options](#321-options)
+  + [3.2.2.​ Callback](#322-callback)
 
-* ​[3.3.​ Decide](#3.3.decide)
-  + [3.3.2.​ Candidates combination](#3.3.2.candidatesCombinations)
-  + [3.3.3.​ Options](#3.3.3.options)
-  + [3.3.4. Serialization / Deserialization](#3.3.4.serialization/deserialization)
+* ​[3.3.​ Decide](#33-decide)
+  + [3.3.2.​ Candidates combination](#332-candidates-combinations)
+  + [3.3.3.​ Options](#333-options)
+  + [3.3.4. Serialization / Deserialization](#334-serialization--deserialization)
 
-[​4.​ Troubleshooting](#4.troubleshooting)
+[​4.​ Troubleshooting](#4-troubleshooting)
 
 
 ## ​1.​ Introduction
