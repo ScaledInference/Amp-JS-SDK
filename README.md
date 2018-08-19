@@ -21,8 +21,9 @@ By Scaled Inference
   + [3.2.2.​ Callback](#322-callback)
 
 * ​[3.3.​ Decide](#33-decide)
-  + [3.3.2.​ Candidates combination](#332-candidates-combinations)
-  + [3.3.3.​ Options](#333-options)
+  + [3.3.1.​ Candidates combination](#331-candidates-combinations)
+  + [3.3.2.​ Options](#332-options)
+  + [3.3.3.​ Policy](#333-policy)
   + [3.3.4. Serialization / Deserialization](#334-serialization--deserialization)
 
 [​4.​ Troubleshooting](#4-troubleshooting)
