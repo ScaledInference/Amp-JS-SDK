@@ -121,34 +121,29 @@ For each amp instance, the following configurations are available (i.e., in amp.
 | samplingRate | 1 | [0-1] | Throttles session- level requests sent to Amp |
 | timeout | 1000 | Milliseconds | Maximum time allotted to make session-level requests.  Requests that timeout will send an EARLY\_TERMINATION error in the callback. |
 | debug | warn | (Boolean|String) | error, warn, info, debug, true, false |
-| builtinEvents | [
-"AmpConnectionLatency1",
-"AmpConnectionLatency2",
-"AmpPageEnd",
-"AmpSession",
-"AmpClick",
-"AmpScroll",
-"AmpFocus", "AmpHooks"
-] | Array | See Section 3.1.3 |
+| builtinEvents | ["AmpConnectionLatency1", "AmpConnectionLatency2", "AmpPageEnd", "AmpSession", "AmpClick", "AmpScroll", "AmpFocus", "AmpHooks"] | Array | See Section 3.1.3 |
 | sessionTTL | 30 | Minutes | Set to enable caching a session across your page(s) and for as long as it does not timeout |
-| syncInterval | 30 \* 60 \* 1000 | Milliseconds | The interval to sync the configurations / policies. See Section 3.3.3 for more information. |
+| syncInterval | 30 * 60 * 1000 | Milliseconds | The interval to sync the configurations / policies. See Section 3.3.3 for more information. |
 | hooks | [] | Array | Copy all events from supported libraries and send them to Amp.Allowed values:&#39;ga&#39; - Google Analytics&#39;optimizely&#39; - Optimizely&#39;segment&#39; - Segment.io |
 
 There are three ways to specify these configurations, i.e., before, during, and after the initialization.
 
 **Before initialization.** When amp does not yet exist, specify configurations using window.ampConfig. For example:
 
-| window.ampConfig ={
-  samplingRate:0.5
-} |
-| --- |
+``` javascript
+window.ampConfig ={
+  sessionTTL: 30 * 60 * 1000
+}
+```
 
 When amp is being initialized, the properties in window.ampConfig will be used.
 
 **During initialization.** When amp is being initialized, specify configurations using attributes of the \<script\> tag:
 
-| \< **script** samplingRate=0.8src="[https://amp.ai/libs/PROJECT\_KEY.js](https://amp.ai/PROJECT_KEY.js)"\>\</ **script** \> |
-| --- |
+``` javascript
+<script sessionTTL=1800000 src="https://amp.ai/libs/PROJECT_KEY.js">
+</script>
+```
 
 Note that specifying configurations this way (i.e., during initialization) only supports the configurations of types string and number (see the 2nd / 3rd column above).
 
@@ -156,13 +151,16 @@ A configuration value specified here overrides the value specified in window.amp
 
 **After initialization.** After amp is initialized, specify configurations using amp.config.set():
 
-| amp.config.set("samplingRate",0.9) |
-| --- |
+``` javascript
+amp.config.set("sessionTTL", 1800000);
+```
 
 This overrides the configuration values specified during initialization. Of note, you can inspect the current value(s) of configurations using:
 
-| amp.config.get("samplingRate")amp.config.getAll() |
-| --- |
+``` javascript
+amp.config.get("sessionTTL");
+amp.config.getAll();
+```
 
 #### ​3.1.3.​ Advanced settings
 
@@ -178,7 +176,6 @@ The following events are supported by default with the Browser client:
 6. AmpPageEnd: this is the event we will send when page refresh / close / go next or previous... etc (only those we can detect);
 7. AmpFocus: this is the event we will send when user change their focus into an iframe (mainly for ad click detection);
 8. AmpHooks: this enables the events specified inconfig.hooks to be caught by Amp.
-9. ExtraFeatures: this gathers observable session metrics to better calculate decisions based on your business metric goals.
 
 These can be overridden if you choose not to observe some or any of these.
 
@@ -186,47 +183,59 @@ These can be overridden if you choose not to observe some or any of these.
 
 The amp.observe method has the following signature (i.e., in JsDoc):
 
-| /\*\*
- \* observe, send observation with event name and properties related to  \* observation
- \*
- \* **@name**     observe
- \* **@memberOf** session
- \* **@param**    {String} name - required
- \* **@param**    {Object} properties - optional
- \* **@param**    {Object} options - optional
- \* **@param**    {Number} options.timeout - time allowed to make request
- \* **@callback** callback - optional
- \* **@param**    {Error} err
- \*
- \* **@example**  \* session.observe("userInfo", {country: "china", lang: "zh"},  \*   {timeout: 500}, function(err) { \*     if(err) { \*       console.log(err); \*     } \*  });
- \*
- \*/void observe(name, properties, options, callback(err)) |
-| --- |
+``` javascript
+/**
+  * observe, send observation with event name and properties   
+    related to observation
+  *
+  * @name     observe
+  * @memberOf session
+  * @param    {String} name - required
+  * @param    {Object} properties - optional
+  * @param    {Object} options - optional
+  * @param    {Number} options.timeout - time allowed to make request
+  * @callback callback - optional
+  * @param    {Error} err
+  *
+  * @example  
+  * 
+  * session.observe("userInfo", {country: "china", lang: "zh"},  {timeout: 500});
+  *
+  */ 
+  void observe(name, properties, options, callback(err))
+```
 
 which makes an observation using a named _event_ with properties attached to it.
 
-For example, the statement
+For example, the statement:
 
-| amp.observe("userInfo",{lang:"en", country:"china", premium:false}) |
-| --- |
+``` javascript
+amp.observe("userInfo", { lang:"en", country:"china", premium:false });
+```
 
 sends the event userInfo with 3 properties lang, country and premium.
 
 #### 3.2.1.​ Options
 
-amp.observe() only supports a single option timeout, which uses amp.config.timeout by default. To override, use something like:
+`amp.observe()` only supports a single option timeout, which uses amp.config.timeout by default. To override, use something like:
 
-| // override timeout to be 500 ms
-amp.observe("userInfo",{lang:"en", country:"china", premium:false},{timeout:500}); |
-| --- |
+``` javascript
+// override timeout to be 500 ms
+amp.observe("userInfo", { lang:"en", country:"china", premium:false },{timeout:500);
+ ```
 
 #### ​3.2.2.​ Callback
 
 Use callback to handle errors:
 
-| // print out the error if any is returned
-amp.observe("userInfo",{lang:"en", country:"china", premium:false},{},function(err){  if(err) {    console.log(err);  }}); |
-| --- |
+``` javascript
+// print out the error if any is returned
+amp.observe("userInfo", { lang:"en", country:"china", premium:false }, {}, function(err){  
+  if(err) {    
+    console.log(err);  
+  }
+});
+```
 
 ### 3.3.​ Decide
 
