@@ -40,21 +40,24 @@ _Amp.ai_ is a cloud AI platform that can enhance any software application that i
 
 ### ​1.3.​ Amp Browser Client
 
-The _Amp browser client_ consists of a set of functions that enable a web application to integrate with Amp to report observations and request intelligent decisions.
+The _Amp browser client_ consists of a set of functions that enables a web application to integrate with Amp to report observations and request intelligent decisions.
 
 ## ​2.​ Getting Started
 
 The following snippet illustrates a typical web-application integration with Amp.
 
-| \&lt;scriptsrc=&quot;[https://amp.ai/libs/PROJECT\_KEY.js](https://amp.ai/PROJECT_KEY.js)&quot;\&gt;\&lt;/script\&gt; \&lt;script\&gt;  amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;, premium:false});   let decision = amp.decide(&quot;pickStyle&quot;,{
-    color:[&quot;red&quot;,&quot;green&quot;,&quot;yellow&quot;],
-    font:[&quot;bold&quot;,&quot;italic&quot;,&quot;regular&quot;]
-  });  // use &quot;decision.color&quot; and &quot;decision.font&quot; to render your component\&lt;/script\&gt; |
-| --- |
+``` javascript
+<script src="https://amp.ai/libs/PROJECT\_KEY.js"></script> 
+<script>  
+  amp.observe("userInfo",{ lang:"en", country:"china", premium:false });   
+  let decision = amp.decide("pickStyle",{
+    color:["red","green","yellow"],
+    font:["bold","italic","regular"]
+  });  // use "decision.color" and "decision.font" to render your component
+</script> 
+```
 
-
-
-**Initialization.** The first line initializes the amp instance that represents a single session in the Amp project corresponding to the project key PROJECT\_KEY. Also, it enables the built-in observe events, e.g., AmpSession, AmpClick, and AmpScroll (see Section 3.1.2 for details). In the simplest case, this line can be all it takes (a.k.a., the _one-line_ integration) to integrate your web-application with Amp!
+**Initialization.** The first line initializes the amp instance that represents a single session in the Amp project corresponding to the project key PROJECT_KEY. Also, it enables the built-in observe events, e.g., AmpSession, AmpClick, and AmpScroll (see Section 3.1.2 for details). In the simplest case, this line can be all it takes (a.k.a., the _one-line_ integration) to integrate your web-application with Amp!
 
 **Observe.** Most likely, you will also want to include custom observe events to capture metrics (that measures how well your application is to your business goals) or the contexts that are relevant to them.
 
@@ -62,7 +65,7 @@ The following snippet illustrates a typical web-application integration with Amp
 
 ## ​3.​ Usage
 
-The browser client consists of three key components: initialization, observe, and decide. The initialization creates an amp instance that represents a single session in a project. The amp instance then provides two key methods amp.observe (to make observations) and amp.decide (to make decisions). To support cross-platform integration, amp also provides serialize and deserialize methods.
+The browser client consists of three key components: initialization, observe, and decide. Initializing Amp creates an amp instance that represents a single session in a project. The amp instance then provides two key methods; amp.observe (to make observations) and amp.decide (to make decisions). To support cross-platform integration, amp also provides serialize and deserialize methods.
 
 ### ​3.1.​ Initialization
 
@@ -76,22 +79,32 @@ To support the needs of various applications, there are different ways to
 
 There are three initialization choices: _synchronous_, _asynchronous single-line_, and _asynchronous custom_.
 
-**Synchronous initialization.** This initialization is illustrated in Section 2. It&#39;s main benefit is simplicity, since the availability of the amp instance is guaranteed upon the next javascript statement. The flipside is that the application needs to wait while the amp instance is being initialized. This usage is recommended in applications where a moderate latency (typically within 50ms) can be tolerated.
+**Synchronous initialization.** This initialization is illustrated in Section 2. It's main benefit is simplicity, since the availability of the amp instance is guaranteed upon the next javascript statement. The flipside is that the application needs to wait while the amp instance is being initialized. This usage is recommended in applications where a moderate latency (typically within 50ms) can be tolerated.
 
 **Asynchronous single-line initialization.** For latency-sensitive applications where the synchronous initialization is infeasible, the amp instance can be initialized asynchronously:
 
-| \&lt;scriptasync=truesrc=&quot;[https://amp.ai/libs/PROJECT\_KEY.js](https://amp.ai/PROJECT_KEY.js)&quot;\&gt;\&lt;/script\&gt; |
-| --- |
+``` javascript
+<script async=true src="https://amp.ai/libs/PROJECT_KEY.js">
+</script>
+```
 
 When used this way, any calls to amp.observe() and amp.decide() will be invalid before the amp instance is initialized. This usage is only recommended in a latency-sensitive application that uses the _single-line_ integration (i.e., without additional amp.observe() and amp.decide() calls).
 
 **Asynchronous custom initialization.** For latency-sensitive applications that needs additional amp.observe() and amp.decide() calls, the amp instance should initialized as follows:
 
-| \&lt;script\&gt;&quot;use strict&quot;;function \_defineProperty(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}!function(e){function t(e,t){try{var n=Object.prototype.toString.call(e).slice(8).slice(0,-1).toLowerCase();return 2===arguments.length?&quot;string&quot;==typeof t&amp;&amp;(t=t.toLowerCase(),n==t):n}catch(e){return!1}}function n(e){try{if(!t(e,&quot;Object&quot;))return[];var n=Object.keys(e);if(!n.length)return[];for(var r=[];n.length;)!function(){var i=n.pop(),a=e[i];a&amp;&amp;!t(a,&quot;Array&quot;)&amp;&amp;(a=[a]),a.length&amp;&amp;(r=0===r.length?a.map(function(e){return \_defineProperty({},i,e)}):r.map(function(e){return a.map(function(t){return Object.assign(\_defineProperty({},i,t),e)})}).reduce(function(e,t){return e.concat(t)},[]))}();return r}catch(e){return[]}}if(!window.amp){e=e||{},Object.assign(e,window.ampConfig||{});for(var r=window.amp={replay:[],v:&quot;1.0.0&quot;,ts:(new Date).getTime()},i=&quot;observe log&quot;.split(&quot; &quot;),a=0;a\&lt;i.length;a++)!function(e){r[e]=function(){r.replay.push([e,arguments,(new Date).getTime()])}}(i[a]);r.decide=function(e,i,a,o){arguments[arguments.length-1];return t(i,&quot;object&quot;)&amp;&amp;(i=n(i)),(i=t(i,&quot;array&quot;)?i.slice(0,1):[]).length\&gt;50?(o&amp;&amp;&quot;function&quot;==typeof o&amp;&amp;o(new Error(&quot;Candidate length must be less than or equal to 50.&quot;),i[0]),i[0]):(r.replay.push([&quot;decide&quot;,[e,i[0],a,o],(new Date).getTime()]),i[0])};var o=document,c=o.getElementsByTagName(&quot;script&quot;)[0],u=o.createElement(&quot;script&quot;);c.parentNode.insertBefore(u,c),u.type=&quot;text/javascript&quot;,u.async=!0,u.src=e.scriptSrc||(e.domain||&quot;https://amp.ai&quot;)+&quot;/libs/&quot;+(e.key||&quot;amp.min&quot;)+&quot;.js&quot;}}({key:&quot;\&lt;AMP-PROJECT-KEY\&gt;&quot;});\&lt;/script\&gt; \&lt;script\&gt;  amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;, premium:false});   const decision = amp.decide(&quot;pickStyle&quot;,{
-    color:[&quot;red&quot;,&quot;green&quot;,&quot;yellow&quot;],
-    font:[&quot;bold&quot;,&quot;italic&quot;,&quot;regular&quot;]
-  });    const color = decision.color;  const font = decision.font;\&lt;/script\&gt; |
-| --- |
+``` javascript
+TODO: // replace with updated snippet
+<script>"use strict";function _defineProperty(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}!function(e){function t(e,t){try{var n=Object.prototype.toString.call(e).slice(8).slice(0,-1).toLowerCase();return 2===arguments.length?"string"==typeof t&amp;&amp;(t=t.toLowerCase(),n==t):n}catch(e){return!1}}function n(e){try{if(!t(e,"Object"))return[];var n=Object.keys(e);if(!n.length)return[];for(var r=[];n.length;)!function(){var i=n.pop(),a=e[i];a&amp;&amp;!t(a,"Array")&amp;&amp;(a=[a]),a.length&amp;&amp;(r=0===r.length?a.map(function(e){return _defineProperty({},i,e)}):r.map(function(e){return a.map(function(t){return Object.assign(_defineProperty({},i,t),e)})}).reduce(function(e,t){return e.concat(t)},[]))}();return r}catch(e){return[]}}if(!window.amp){e=e||{},Object.assign(e,window.ampConfig||{});for(var r=window.amp={replay:[],v:"1.0.0",ts:(new Date).getTime()},i="observe log".split(" "),a=0;a\<i.length;a++)!function(e){r[e]=function(){r.replay.push([e,arguments,(new Date).getTime()])}}(i[a]);r.decide=function(e,i,a,o){arguments[arguments.length-1];return t(i,"object")&amp;&amp;(i=n(i)),(i=t(i,"array")?i.slice(0,1):[]).length\>50?(o&amp;&amp;"function"==typeof o&amp;&amp;o(new Error("Candidate length must be less than or equal to 50."),i[0]),i[0]):(r.replay.push(["decide",[e,i[0],a,o],(new Date).getTime()]),i[0])};var o=document,c=o.getElementsByTagName("script")[0],u=o.createElement("script");c.parentNode.insertBefore(u,c),u.type="text/javascript",u.async=!0,u.src=e.scriptSrc||(e.domain||"https://amp.ai")+"/libs/"+(e.key||"amp.min")+".js"}}({key:"<AMP-PROJECT-KEY>"});
+</script>
+<script>  
+  amp.observe("userInfo",{lang:"en", country:"china", premium:false});   
+  const decision = amp.decide("pickStyle",{
+    color:["red","green","yellow"],
+    font:["bold","italic","regular"]
+  });    
+  const color = decision.color;  const font = decision.font;
+</script>
+```
 
 Effectively, this initialization puts all usages of the amp instance into a replay queue, which are replayed after it is initialized. Note that in this case, the timeout specified for amp.observe() and amp.decide() needs to include the waiting time while they are in the replay queue.
 
@@ -109,13 +122,13 @@ For each amp instance, the following configurations are available (i.e., in amp.
 | timeout | 1000 | Milliseconds | Maximum time allotted to make session-level requests.  Requests that timeout will send an EARLY\_TERMINATION error in the callback. |
 | debug | warn | (Boolean|String) | error, warn, info, debug, true, false |
 | builtinEvents | [
-&quot;AmpConnectionLatency1&quot;,
-&quot;AmpConnectionLatency2&quot;,
-&quot;AmpPageEnd&quot;,
-&quot;AmpSession&quot;,
-&quot;AmpClick&quot;,
-&quot;AmpScroll&quot;,
-&quot;AmpFocus&quot;, &quot;AmpHooks&quot;
+"AmpConnectionLatency1",
+"AmpConnectionLatency2",
+"AmpPageEnd",
+"AmpSession",
+"AmpClick",
+"AmpScroll",
+"AmpFocus", "AmpHooks"
 ] | Array | See Section 3.1.3 |
 | sessionTTL | 30 | Minutes | Set to enable caching a session across your page(s) and for as long as it does not timeout |
 | syncInterval | 30 \* 60 \* 1000 | Milliseconds | The interval to sync the configurations / policies. See Section 3.3.3 for more information. |
@@ -132,9 +145,9 @@ There are three ways to specify these configurations, i.e., before, during, and 
 
 When amp is being initialized, the properties in window.ampConfig will be used.
 
-**During initialization.** When amp is being initialized, specify configurations using attributes of the \&lt;script\&gt; tag:
+**During initialization.** When amp is being initialized, specify configurations using attributes of the \<script\> tag:
 
-| \&lt; **script** samplingRate=0.8src=&quot;[https://amp.ai/libs/PROJECT\_KEY.js](https://amp.ai/PROJECT_KEY.js)&quot;\&gt;\&lt;/ **script** \&gt; |
+| \< **script** samplingRate=0.8src="[https://amp.ai/libs/PROJECT\_KEY.js](https://amp.ai/PROJECT_KEY.js)"\>\</ **script** \> |
 | --- |
 
 Note that specifying configurations this way (i.e., during initialization) only supports the configurations of types string and number (see the 2nd / 3rd column above).
@@ -143,12 +156,12 @@ A configuration value specified here overrides the value specified in window.amp
 
 **After initialization.** After amp is initialized, specify configurations using amp.config.set():
 
-| amp.config.set(&quot;samplingRate&quot;,0.9) |
+| amp.config.set("samplingRate",0.9) |
 | --- |
 
 This overrides the configuration values specified during initialization. Of note, you can inspect the current value(s) of configurations using:
 
-| amp.config.get(&quot;samplingRate&quot;)amp.config.getAll() |
+| amp.config.get("samplingRate")amp.config.getAll() |
 | --- |
 
 #### ​3.1.3.​ Advanced settings
@@ -185,7 +198,7 @@ The amp.observe method has the following signature (i.e., in JsDoc):
  \* **@callback** callback - optional
  \* **@param**    {Error} err
  \*
- \* **@example**  \* session.observe(&quot;userInfo&quot;, {country: &quot;china&quot;, lang: &quot;zh&quot;},  \*   {timeout: 500}, function(err) { \*     if(err) { \*       console.log(err); \*     } \*  });
+ \* **@example**  \* session.observe("userInfo", {country: "china", lang: "zh"},  \*   {timeout: 500}, function(err) { \*     if(err) { \*       console.log(err); \*     } \*  });
  \*
  \*/void observe(name, properties, options, callback(err)) |
 | --- |
@@ -194,7 +207,7 @@ which makes an observation using a named _event_ with properties attached to it.
 
 For example, the statement
 
-| amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;, premium:false}) |
+| amp.observe("userInfo",{lang:"en", country:"china", premium:false}) |
 | --- |
 
 sends the event userInfo with 3 properties lang, country and premium.
@@ -204,7 +217,7 @@ sends the event userInfo with 3 properties lang, country and premium.
 amp.observe() only supports a single option timeout, which uses amp.config.timeout by default. To override, use something like:
 
 | // override timeout to be 500 ms
-amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;, premium:false},{timeout:500}); |
+amp.observe("userInfo",{lang:"en", country:"china", premium:false},{timeout:500}); |
 | --- |
 
 #### ​3.2.2.​ Callback
@@ -212,7 +225,7 @@ amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;
 Use callback to handle errors:
 
 | // print out the error if any is returned
-amp.observe(&quot;userInfo&quot;,{lang:&quot;en&quot;, country:&quot;china&quot;, premium:false},{},function(err){  if(err) {    console.log(err);  }}); |
+amp.observe("userInfo",{lang:"en", country:"china", premium:false},{},function(err){  if(err) {    console.log(err);  }}); |
 | --- |
 
 ### 3.3.​ Decide
@@ -224,25 +237,25 @@ The amp.decide method has the following signature (i.e., in JsDoc)
 
 For example, the statement
 
-| let decision = amp.decide(&quot;textStyle&quot;,[
-  {color:&quot;red&quot;, font:&quot;bold&quot;},
-  {color:&quot;green&quot;, font:&quot;italic&quot;},
-  {color:&quot;blue&quot;, font:&quot;regular&quot;},
+| let decision = amp.decide("textStyle",[
+  {color:"red", font:"bold"},
+  {color:"green", font:"italic"},
+  {color:"blue", font:"regular"},
 ]);// Use decision.color and decision.font to render the page |
 | --- |
 
-requests a decision with the event name textStyle, which asks Amp: &quot;which of the (three) candidate(s) is the best for my metrics&quot;. The decision returned can then be used to change the behavior of your application.
+requests a decision with the event name textStyle, which asks Amp: "which of the (three) candidate(s) is the best for my metrics". The decision returned can then be used to change the behavior of your application.
 
 #### 3.3.1.​ Candidates combination
 
 In the above example, the argument candidates is specified as an array. Alternatively, we also support using an object to specify the candidates as _all possible combinations_ of a few properties. For example,
 
-| { **  color** :[&quot;red&quot;,&quot;green&quot;, &quot;blue&quot;],  font:[&quot;regular&quot;,&quot;italic&quot;,&quot;bold&quot;] } |
+| { **  color** :["red","green", "blue"],  font:["regular","italic","bold"] } |
 | --- |
 
 is equivalent to its array specification (of length 6):
 
-| [  {color:&quot;blue&quot;, font:&quot;regular&quot;},  {color:&quot;blue&quot;, font:&quot;italic&quot;},  {color:&quot;blue&quot;, font:&quot;bold&quot;},  {color:&quot;green&quot;, font:&quot;regular&quot;},  {color:&quot;green&quot;, font:&quot;italic&quot;},  {color:&quot;green&quot;, font:&quot;bold&quot;},  {color:&quot;red&quot;, font:&quot;regular&quot;},   {color:&quot;red&quot;, font:&quot;italic&quot;},   {color:&quot;red&quot;, font:&quot;bold&quot;}  ] |
+| [  {color:"blue", font:"regular"},  {color:"blue", font:"italic"},  {color:"blue", font:"bold"},  {color:"green", font:"regular"},  {color:"green", font:"italic"},  {color:"green", font:"bold"},  {color:"red", font:"regular"},   {color:"red", font:"italic"},   {color:"red", font:"bold"}  ] |
 | --- |
 
 When combining the Object, we combine by lexically ordering the keys as noted above in the example.
@@ -251,10 +264,10 @@ When combining the Object, we combine by lexically ordering the keys as noted ab
 
 amp.decide() supports two options: timeout, and ttl. To set, use something like:
 
-| amp.decide(&quot;textStyle&quot;,[
-  {color:&quot;red&quot;, font:&quot;bold&quot;},
-  {color:&quot;green&quot;, font:&quot;italic&quot;},
-  {color:&quot;blue&quot;, font:&quot;regular&quot;},
+| amp.decide("textStyle",[
+  {color:"red", font:"bold"},
+  {color:"green", font:"italic"},
+  {color:"blue", font:"regular"},
 ], {  timeout:500});// decision: the candidate (from the list of candidates) that is the best decision |
 | --- |
 
