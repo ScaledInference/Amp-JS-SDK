@@ -21,10 +21,9 @@ By Scaled Inference
   + [3.2.2.​ Callback](#322-callback)
 
 * ​[3.3.​ Decide](#33-decide)
-  + [3.3.1.​ Candidates combination](#331-candidates-combination)
-  + [3.3.2.​ Options](#332-options)
-  + [3.3.3.​ Policies](#333-policies)
-  + [3.3.4. Serialization / Deserialization](#334-serialization--deserialization)
+  + [3.3.1.​ Options](#332-options)
+  + [3.3.2.​ Policies](#333-policies)
+  + [3.3.3. Serialization / Deserialization](#334-serialization--deserialization)
 
 [​4.​ Troubleshooting](#4-troubleshooting)
 
@@ -47,7 +46,7 @@ The _Amp browser client_ consists of a set of functions that enables a web appli
 The following snippet illustrates a typical web-application integration with Amp.
 
 ``` javascript
-<script src="https://amp.ai/libs/PROJECT\_KEY.js"></script> 
+<script src="https://amp.ai/libs/PROJECT_KEY.js"></script> 
 <script>  
   amp.observe("userInfo",{ lang:"en", country:"china", premium:false });   
   let decision = amp.decide("pickStyle",{
@@ -65,7 +64,7 @@ The following snippet illustrates a typical web-application integration with Amp
 
 ## ​3.​ Usage
 
-The browser client consists of three key components: initialization, observe, and decide. Initializing Amp creates an amp instance that represents a single session in a project. The amp instance then provides two key methods; amp.observe (to make observations) and amp.decide (to make decisions). To support cross-platform integration, amp also provides serialize and deserialize methods.
+The browser client consists of three key components: `initialization`, `observe`, and `decide`. Initializing Amp creates an amp instance that represents a single session in a project. The amp instance then provides two key methods; amp.observe (to make observations) and amp.decide (to make decisions). To support cross-platform integration, amp also provides serialize and deserialize methods.
 
 ### ​3.1.​ Initialization
 
@@ -77,24 +76,20 @@ To support the needs of various applications, there are different ways to
 
 #### 3.1.1.​ Initialization choices
 
-There are three initialization choices: _synchronous_, _asynchronous single-line_, and _asynchronous custom_.
+There are three initialization choices: `_synchronous_` and `_asynchronous_`.
 
 **Synchronous initialization.** This initialization is illustrated in Section 2. It's main benefit is simplicity, since the availability of the amp instance is guaranteed upon the next javascript statement. The flipside is that the application needs to wait while the amp instance is being initialized. This usage is recommended in applications where a moderate latency (typically within 50ms) can be tolerated.
 
-**Asynchronous single-line initialization.** For latency-sensitive applications where the synchronous initialization is infeasible, the amp instance can be initialized asynchronously:
-
 ``` javascript
-<script async=true src="https://amp.ai/libs/PROJECT_KEY.js">
+<script src="https://amp.ai/libs/PROJECT_KEY.js">
 </script>
 ```
 
-When used this way, any calls to amp.observe() and amp.decide() will be invalid before the amp instance is initialized. This usage is only recommended in a latency-sensitive application that uses the _single-line_ integration (i.e., without additional amp.observe() and amp.decide() calls).
-
-**Asynchronous custom initialization.** For latency-sensitive applications that needs additional amp.observe() and amp.decide() calls, the amp instance should initialized as follows:
+**Asynchronous initialization.** For latency-sensitive applications, the amp instance should be initialized as follows:
 
 ``` javascript
-TODO: // replace with updated snippet
-<script>"use strict";function _defineProperty(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}!function(e){function t(e,t){try{var n=Object.prototype.toString.call(e).slice(8).slice(0,-1).toLowerCase();return 2===arguments.length?"string"==typeof t&amp;&amp;(t=t.toLowerCase(),n==t):n}catch(e){return!1}}function n(e){try{if(!t(e,"Object"))return[];var n=Object.keys(e);if(!n.length)return[];for(var r=[];n.length;)!function(){var i=n.pop(),a=e[i];a&amp;&amp;!t(a,"Array")&amp;&amp;(a=[a]),a.length&amp;&amp;(r=0===r.length?a.map(function(e){return _defineProperty({},i,e)}):r.map(function(e){return a.map(function(t){return Object.assign(_defineProperty({},i,t),e)})}).reduce(function(e,t){return e.concat(t)},[]))}();return r}catch(e){return[]}}if(!window.amp){e=e||{},Object.assign(e,window.ampConfig||{});for(var r=window.amp={replay:[],v:"1.0.0",ts:(new Date).getTime()},i="observe log".split(" "),a=0;a\<i.length;a++)!function(e){r[e]=function(){r.replay.push([e,arguments,(new Date).getTime()])}}(i[a]);r.decide=function(e,i,a,o){arguments[arguments.length-1];return t(i,"object")&amp;&amp;(i=n(i)),(i=t(i,"array")?i.slice(0,1):[]).length\>50?(o&amp;&amp;"function"==typeof o&amp;&amp;o(new Error("Candidate length must be less than or equal to 50."),i[0]),i[0]):(r.replay.push(["decide",[e,i[0],a,o],(new Date).getTime()]),i[0])};var o=document,c=o.getElementsByTagName("script")[0],u=o.createElement("script");c.parentNode.insertBefore(u,c),u.type="text/javascript",u.async=!0,u.src=e.scriptSrc||(e.domain||"https://amp.ai")+"/libs/"+(e.key||"amp.min")+".js"}}({key:"<AMP-PROJECT-KEY>"});
+<script>
+"use strict";function _defineProperty(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}!function(e){function t(e,t){try{var r=Object.prototype.toString.call(e).slice(8).slice(0,-1).toLowerCase();return 2===arguments.length?"string"==typeof t&&(t=t.toLowerCase(),r==t):r}catch(e){return!1}}function r(e){try{if(!t(e,"Object"))return[];var r=Object.keys(e);if(!r.length)return[];for(var n=[];r.length;)!function(){var i=r.pop(),a=e[i];a&&!t(a,"Array")&&(a=[a]),a.length&&(n=0===n.length?a.map(function(e){return _defineProperty({},i,e)}):n.map(function(e){return a.map(function(t){return Object.assign(_defineProperty({},i,t),e)})}).reduce(function(e,t){return e.concat(t)},[]))}();return n}catch(e){return[]}}if(!window.amp){e=e||{},Object.assign(e,window.ampConfig||{});for(var n=window.amp={replay:[],v:"1.0.2",ts:(new Date).getTime()},i="observe log".split(" "),a=0;a<i.length;a++)!function(e){n[e]=function(){for(var t=arguments.length,r=Array(t),i=0;i<t;i++)r[i]=arguments[i];n.replay.push([e,r,(new Date).getTime()])}}(i[a]);n.decide=function(e,i,a,o){return t(i,"object")&&(i=r(i)),(i=t(i,"array")?i.slice(0,1):[]).length>50?(o&&"function"==typeof o&&o(new Error("Candidate length must be less than or equal to 50."),i[0]),i[0]):(n.replay.push(["decide",arguments,(new Date).getTime()]),i[0])};var o=document,c=o.getElementsByTagName("script")[0],u=o.createElement("script");c.parentNode.insertBefore(u,c),u.type="text/javascript",u.async=!0,u.src=e.scriptSrc||(e.domain||"https://amp.ai")+"/libs/"+(e.key||"amp.min")+".js"}}({key:"<AMP-PROJECT-KEY>"});
 </script>
 <script>  
   amp.observe("userInfo",{lang:"en", country:"china", premium:false});   
@@ -106,7 +101,7 @@ TODO: // replace with updated snippet
 </script>
 ```
 
-Effectively, this initialization puts all usages of the amp instance into a replay queue, which are replayed after it is initialized. Note that in this case, the timeout specified for amp.observe() and amp.decide() needs to include the waiting time while they are in the replay queue.
+Effectively, this initialization puts all usages of the amp instance into a replay queue, which are replayed after it is initialized. Note that in this case, the timeout specified for `amp.observe()` and `amp.decide()` needs to include the waiting time while they are in the replay queue.
 
 #### 3.1.2.​ Configurations
 
@@ -117,14 +112,15 @@ For each amp instance, the following configurations are available (i.e., in amp.
 | domain | [https://amp.ai](https://amp.ai/) | String | The domain to which an amp instance sends requests to |
 | apiPath | /api/core/v1 | String | The API path to which an amp instance sends requests to |
 | key | Empty String | String | Project Key |
-| userId | Empty String | String | Unique User Id |
+| userId | 5-character random string | String | Unique User Id |
 | samplingRate | 1 | [0-1] | Throttles session- level requests sent to Amp |
-| timeout | 1000 | Milliseconds | Maximum time allotted to make session-level requests.  Requests that timeout will send an EARLY\_TERMINATION error in the callback. |
-| debug | warn | (Boolean|String) | error, warn, info, debug, true, false |
+| timeout | 30000 | Milliseconds | Maximum time allotted to make session-level requests.  Requests that timeout will send an EARLY_TERMINATION error in the callback. |
+| debug | warn | (Boolean\|String) | error, warn, info, debug, true, false |
 | builtinEvents | ["AmpConnectionLatency1", "AmpConnectionLatency2", "AmpPageEnd", "AmpSession", "AmpClick", "AmpScroll", "AmpFocus", "AmpHooks"] | Array | See Section 3.1.3 |
-| sessionTTL | 30 | Minutes | Set to enable caching a session across your page(s) and for as long as it does not timeout |
+| sessionTTL | 30 * 60 * 1000 | Milliseconds | Time when session will expire after inactivity |
+| sessionLifetime | 24 * 60 * 60 * 1000 | Milliseconds | Defines the max session time 
 | syncInterval | 30 * 60 * 1000 | Milliseconds | The interval to sync the configurations / policies. See Section 3.3.3 for more information. |
-| hooks | [] | Array | Copy all events from supported libraries and send them to Amp.Allowed values:&#39;ga&#39; - Google Analytics&#39;optimizely&#39; - Optimizely&#39;segment&#39; - Segment.io |
+| hooks | [] | Array | Observe all events from supported libraries.  Allowed values: "ga", "optimizely", "segment"|
 
 There are three ways to specify these configurations, i.e., before, during, and after the initialization.
 
@@ -138,7 +134,7 @@ window.ampConfig ={
 
 When amp is being initialized, the properties in window.ampConfig will be used.
 
-**During initialization.** When amp is being initialized, specify configurations using attributes of the \<script\> tag:
+**During initialization.** When amp is being initialized, specify configurations using attributes of the `<script>` tag:
 
 ``` javascript
 <script sessionTTL=1800000 src="https://amp.ai/libs/PROJECT_KEY.js">
@@ -149,7 +145,7 @@ Note that specifying configurations this way (i.e., during initialization) only 
 
 A configuration value specified here overrides the value specified in window.ampConfig.
 
-**After initialization.** After amp is initialized, specify configurations using amp.config.set():
+**After initialization.** After amp is initialized, specify configurations using `amp.config.set(key, value)`:
 
 ``` javascript
 amp.config.set("sessionTTL", 1800000);
@@ -177,7 +173,7 @@ The following events are supported by default with the Browser client:
 7. AmpFocus: this is the event we will send when user change their focus into an iframe (mainly for ad click detection);
 8. AmpHooks: this enables the events specified inconfig.hooks to be caught by Amp.
 
-These can be overridden if you choose not to observe some or any of these.
+These can be overridden if you choose not to observe some or any of these by setting the `hooks` configuration.
 
 ### 3.2.​ Observe
 
@@ -210,18 +206,18 @@ which makes an observation using a named _event_ with properties attached to it.
 For example, the statement:
 
 ``` javascript
-amp.observe("userInfo", { lang:"en", country:"china", premium:false });
+amp.observe("userInfo", { lang: "en", country: "china", premium: false });
 ```
 
-sends the event userInfo with 3 properties lang, country and premium.
+sends the event userInfo with 3 properties `lang`, `country` and `premium`.
 
 #### 3.2.1.​ Options
 
-`amp.observe()` only supports a single option timeout, which uses amp.config.timeout by default. To override, use something like:
+`amp.observe()` only supports a single option timeout, which uses `amp.config.timeout` by default. To override, use something like:
 
 ``` javascript
 // override timeout to be 500 ms
-amp.observe("userInfo", { lang:"en", country:"china", premium:false },{timeout:500);
+amp.observe("userInfo", { lang: "en", country: "china", premium: false },{ timeout:500 });
  ```
 
 #### ​3.2.2.​ Callback
@@ -230,7 +226,7 @@ Use callback to handle errors:
 
 ``` javascript
 // print out the error if any is returned
-amp.observe("userInfo", { lang:"en", country:"china", premium:false }, {}, function(err){  
+amp.observe("userInfo", { lang: "en", country: "china", premium: false }, {}, function(err){  
   if(err) {    
     console.log(err);  
   }
@@ -241,59 +237,60 @@ amp.observe("userInfo", { lang:"en", country:"china", premium:false }, {}, funct
 
 The amp.decide method has the following signature (i.e., in JsDoc)
 
-| /\*\* \* decide, request a decision using a named event and a list of candidates \* \* @name decide \* @memberOf amp \* @param {String} name - required \* @param {Object|Array} candidates - required \* @param {Object} options - optional \* @param {Number} options.timeout - time allowed to make request \* @param {Number} options.ttl - the length of time this decision will be cached \* @callback callback - optional \* @param {Error} err \* @param {Object} decision \*  \*/void decide(name, candidates, options, callback(err, decision)) |
-| --- |
+``` javascript
+/**
+ * decide, request a decision using a named event and a list of candidates
+ *
+ * @name decide
+ * @memberOf amp
+ * @param {String} name - required
+ * @param {Object|Array} candidates - required
+ * @param {Object} options - optional
+ * @param {Number} options.timeout - time allowed to make request
+ * @param {Number} options.ttl - the length of time this decision will be cached
+ * @callback callback - optional
+ * @param {Error} err
+ * @param {Object} decision
+ */
+ Object decide(name, candidates, options, callback(err, decision))
+ ```
 
-For example, the statement
+For example, the statement:
 
-| let decision = amp.decide("textStyle",[
-  {color:"red", font:"bold"},
-  {color:"green", font:"italic"},
-  {color:"blue", font:"regular"},
-]);// Use decision.color and decision.font to render the page |
-| --- |
+``` javascript
+let decision = amp.decide("textStyle", {
+  color:["red", "green", "blue"],
+  font: ["bold", "italic", "regular"]
+}); // Use decision.color and decision.font to take action on page elements
+```
 
-requests a decision with the event name textStyle, which asks Amp: "which of the (three) candidate(s) is the best for my metrics". The decision returned can then be used to change the behavior of your application.
+requests a decision with the event name `textStyle`, which asks Amp: "which of the (three) candidate(s) is the best for my metrics". The decision returned can then be used to change the behavior of your application.
 
-#### 3.3.1.​ Candidates combination
+#### 3.3.1.​ Options
 
-In the above example, the argument candidates is specified as an array. Alternatively, we also support using an object to specify the candidates as _all possible combinations_ of a few properties. For example,
+`amp.decide()` supports two options: `timeout`, and `ttl`. To set, use something like:
 
-| { **  color** :["red","green", "blue"],  font:["regular","italic","bold"] } |
-| --- |
+``` javascript
+let decision = amp.decide("textStyle", {
+  color:["red", "green", "blue"],
+  font: ["bold", "italic", "regular"]
+}, { timeout: 500, ttl: 20 * 60 * 1000});
+```
 
-is equivalent to its array specification (of length 6):
-
-| [  {color:"blue", font:"regular"},  {color:"blue", font:"italic"},  {color:"blue", font:"bold"},  {color:"green", font:"regular"},  {color:"green", font:"italic"},  {color:"green", font:"bold"},  {color:"red", font:"regular"},   {color:"red", font:"italic"},   {color:"red", font:"bold"}  ] |
-| --- |
-
-When combining the Object, we combine by lexically ordering the keys as noted above in the example.
-
-#### 3.3.2.​ Options
-
-amp.decide() supports two options: timeout, and ttl. To set, use something like:
-
-| amp.decide("textStyle",[
-  {color:"red", font:"bold"},
-  {color:"green", font:"italic"},
-  {color:"blue", font:"regular"},
-], {  timeout:500});// decision: the candidate (from the list of candidates) that is the best decision |
-| --- |
-
-**timeout.** Specifies the maximal amount of time between the time when amp.decide() is called and the time when the callback is called. When the asynchronous custom initialization(see Section 3.1) is used, this will include the time when the request is waiting in the replay queue. When amp.decide() times out, it returns the _default_ decision (see Section 3.3.3).
+**timeout.** Specifies the maximal amount of time between the time when amp.decide() is called and the time when the callback is called. When the asynchronous custom initialization(see Section 3.1) is used, this will include the time when the request is waiting in the replay queue. When `amp.decide()` times out, it returns the _default_ decision (see Section 3.3.3).
 
 **ttl.** The amount of time that the decision returned is cached.
 
-#### 3.3.3.​ Policies
+#### 3.3.2.​ Policies
 
-amp.decide() makes decision through two types of policies: _Default_ and _Amped_.
+`amp.decide()` makes decision through two types of policies: _`Default`_ and _`Amped`_.
 
-- The _Amped policy_ aims to optimize the business metrics you setup via the console, i.e., by using the patterns learned automatically from your data.
-- The _Default policy_, on the other hand, aims to serve as a conservative fallback by simply truncating the candidates to be of length 1. The decisions made this way are referred as the default decision(s).
+- The _`Amped policy`_ aims to optimize the business metrics you setup via the console, i.e., by using the patterns learned automatically from your data.
+- The _`Default policy`_, on the other hand, aims to serve as a conservative fallback by simply truncating the candidates to be of length 1. The decisions made this way are referred as the default decision(s).
 
-The proportion of sessions that uses the Amped vs the Default policies, a.k.a. the _policy allocation_, can be controlled from the Amp console. Furthermore, both the policy allocation and the most current Amped policy (continuously being updated by Amp) will be automatically _synced_ to the client, such that they are honored by the decisions made at the client. An amp will do _policy syncing_ when an amp instance is created, if the time specified by syncInterval has passed since the last syncing. If the instance stays alive past the time specified by syncInterval, it will sync again.
+The proportion of sessions that uses the `Amped` vs the `Default` policies, a.k.a. the _`policy allocation`_, can be controlled from the Amp console. Furthermore, both the policy allocation and the most current Amped policy (continuously being updated by Amp) will be automatically _`synced`_ to the client, such that they are honored by the decisions made at the client. An amp will do _`policy syncing`_ when an amp instance is created, if the time specified by `syncInterval` has passed since the last syncing. If the instance stays alive past the time specified by `syncInterval`, it will sync again.
 
-#### 3.3.4. Serialization / Deserialization
+#### 3.3.3. Serialization / Deserialization
 
 Sessions can be serialized and deserialized by setting the `sessionTTL` in the Amp instance configuration.  This allows you to set the duration of a session in your application.  Some sessions are defined by user which can have a very long TTL, while others may be defined by each visit to the application, which have a much shorter TTL.  When setting the TTL on the session, it is also recommended to set the TTL on the `decide()` call to the same amount for shorter session definitions.  This will allow for a cohesive user experience.
 
@@ -314,10 +311,10 @@ Upon pulling down the persisted session, you can use the `deserialize()` on the 
 
 
 2. ​What if I want to keep using the same session across usage ?
-  1.  We support sessionTTL as one of the amp level options in order to specify the lifetime of a session. If it&#39;s not outdated, it will be resumed; otherwise, a new session will be created.  The session is still available if you refresh the page or navigate to another page as long as sessionTTL has not expired.
+  1.  We support sessionTTL as one of the amp level options in order to specify the lifetime of a session. If it's not outdated, it will be resumed; otherwise, a new session will be created.  The session is still available if you refresh the page or navigate to another page as long as sessionTTL has not expired.
 
 3. What if I call bserve or decide without a name ?
-  1. If in debug mode, you will be notified with the error, otherwise, it will fail silently and the events won&#39;t be able to be sent to us. For decide, you will still get the candidate(s) back, but with default order.
+  1. If in debug mode, you will be notified with the error, otherwise, it will fail silently and the events won't be able to be sent to us. For decide, you will still get the candidate(s) back, but with default order.
 
 4. ​Will observe or decide affect my latency ?
   1. No. For bserve, we make it purely async. Both calls will fire and forget immediately. If you want to do some actions right after the bserve request being sent, then you can pass in a callback into bserve and it will be called after we hear back from the request. For decide, we will return the decision through the callback, which will be generated by our offline policies, and then report to our server.
@@ -327,8 +324,8 @@ Upon pulling down the persisted session, you can use the `deserialize()` on the 
 
 6. What is the compatibilities of Amp ?
   1. We support back to IE11, Firefox 44 on Windows and Firefox 40 on Mac, Chrome 40 and Safari 8 on OSX Yosemite.  For these versions, you will have a fully functional amp instance.  For unsupported versions, amp will use a fallback snippet and will only support amp.observe and amp.decide calls that return the default decision.
-  2. The AmpFocus event has a dependency on the browser being able to detect &#39;onBlur&#39; events on an &#39;iframe&#39;.  If the browser does not support this, then AmpFocus events will not be fired.
-  3. The AmpPageEnd event has a dependency on the browser supporting &#39;onbeforeunload&#39;.  If the browser does not support this, then AmpPageEnd events will not be fired and any current processing bserve or decide events will be lost.
+  2. The AmpFocus event has a dependency on the browser being able to detect `onBlur` events on an `iframe`.  If the browser does not support this, then AmpFocus events will not be fired.
+  3. The AmpPageEnd event has a dependency on the browser supporting `onbeforeunload`.  If the browser does not support this, then AmpPageEnd events will not be fired and any current processing bserve or decide events will be lost.
   4. For mobile browsers:
     1. iOS - Google Analytics and cached decisions are not supported
     2. Android - AmpFocus, decision callback and config syncing are not supported
