@@ -244,7 +244,7 @@ The amp.decide method has the following signature (i.e., in JsDoc)
  * @name decide
  * @memberOf amp
  * @param {String} name - required
- * @param {Object|Array} candidates - required
+ * @param {Object} candidates - required
  * @param {Object} options - optional
  * @param {Number} options.timeout - time allowed to make request
  * @param {Number} options.ttl - the length of time this decision will be cached
