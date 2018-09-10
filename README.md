@@ -279,7 +279,7 @@ let decision = amp.decide("textStyle", {
 
 **timeout.** Specifies the maximal amount of time between the time when amp.decide() is called and the time when the callback is called. When the asynchronous custom initialization(see Section 3.1) is used, this will include the time when the request is waiting in the replay queue. When `amp.decide()` times out, it returns the _default_ decision (see Section 3.3.3).
 
-**ttl.** The amount of time that the decision returned is cached.
+**ttl.** The amount of time that the decision returned is cached.  By default, the `ttl` is cached for the duration of the session.
 
 #### 3.3.2.​ Policies
 
