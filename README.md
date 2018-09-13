@@ -117,7 +117,7 @@ For each amp instance, the following configurations are available (i.e., in amp.
 | timeout | 30000 | Milliseconds | Maximum time allotted to make session-level requests.  Requests that timeout will send an EARLY_TERMINATION error in the callback. |
 | debug | warn | (Boolean\|String) | error, warn, info, debug, true, false |
 | builtinEvents | ["AmpConnectionLatency1", "AmpConnectionLatency2", "AmpPageEnd", "AmpSession", "AmpClick", "AmpScroll", "AmpFocus", "AmpHooks"] | Array | See Section 3.1.3 |
-| instanceName | Empty String | String | Name for Amp.ai instance |
+| instanceName | Empty String | String | Custom name for Amp.ai instance |
 | sessionTTL | 30 * 60 * 1000 | Milliseconds | Time when session will expire after inactivity |
 | sessionLifetime | 24 * 60 * 60 * 1000 | Milliseconds | Defines the max session time 
 | syncInterval | 30 * 60 * 1000 | Milliseconds | The interval to sync the configurations / policies. See Section 3.3.3 for more information. |
@@ -176,8 +176,8 @@ The following events are supported by default with the Browser client:
 
 These can be overridden if you choose not to observe some or any of these by setting the `hooks` configuration.
 
-**instanceName**
-Specify an `instanceName` if you want to integrate more than one project on a page.  By default, you get an Amp.ai instance named, `amp`.  By defining another variable with the `instanceName` configuration, you now have the `amp` instance and an instance with the name you provide.
+**Multiple Amp Instances**
+If you have a use case where two or more projects overlap, you need to specify a unique instance of Amp for each one beyond the default instance you receive when bringing down the Amp.ai script.
 
 _Example:_
 ``` javascript
@@ -187,34 +187,19 @@ window.ampConfig = {
 
 <script src='https://amp.ai/libs/PROJECT_KEY.js'></script>
 
-window.ampConfig = {
-  instanceName: 'amp2'
-};
-
-<script src='https://amp.ai/libs/PROJECT_KEY_2.js'></script>
-
 <script>
-  amp.observe('ObserveEvent', { props });
+  // default Amp instance from synchronous script above
+  amp.observe('ObserveEvent', { props }); 
   var decision = amp.decide('DecideEvent', { candidates });
   
-  amp2.observe('ObserveEvent2', { props });
-  var decision2 = amp2.decide('DecideEvent2', { candidates });
-</script>
-  
-```
-
-***Observing only with multiple Amp.ai instances***
-If you need to observe context or outcomes for multiple projects on a page, you are not required to bring down multiple Amp.ai scripts with their configuration.  All you have to do is use the `Amp` constructor already available and initialize a new `Amp` and `Session` instance as follows:
-
-``` javascript
-<script>
-  amp.observe('ObserveEvent', { props }); //default amp instance
-  
-  var amp2 = new Amp('key: PROJECT_KEY_2');
+  // overlapping project requiring a unique instance of Amp
+  const amp2 = new Amp({ key: 'PROJECT_KEY_2' });
   amp2.session = new amp2.Session();
   
-  amp2.session.observe('ObserveEvent2', { props }); // notice the use of amp2.session to make the observe API call
+  amp2.session.observe('ObserveEvent2', { props });
+  var decision2 = amp2.session.decide('DecideEvent2', { candidates });
 </script>
+  
 ```
 
 ### 3.2.​ Observe
