@@ -187,17 +187,21 @@ window.ampConfig = {
 
 <script src='https://amp.ai/libs/PROJECT_KEY.js'></script>
 
+window.ampConfig = {
+  // project configuration here and
+  instanceName: 'amp2'
+};
+
+<script src='https://amp.ai/libs/PROJECT_KEY_2.js'></script>
+
 <script>
   // default Amp instance from synchronous script above
   amp.observe('ObserveEvent', { props }); 
   var decision = amp.decide('DecideEvent', { candidates });
   
-  // overlapping project requiring a unique instance of Amp
-  const amp2 = new Amp({ key: 'PROJECT_KEY_2' });
-  amp2.session = new amp2.Session();
-  
-  amp2.session.observe('ObserveEvent2', { props });
-  var decision2 = amp2.session.decide('DecideEvent2', { candidates });
+  // overlapping project requiring a defined instance of Amp from `instanceName` config
+  amp2.observe('ObserveEvent2', { props });
+  var decision2 = amp2.decide('DecideEvent2', { candidates });
 </script>
   
 ```
