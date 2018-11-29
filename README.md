@@ -92,13 +92,15 @@ There are three initialization choices: `_synchronous_` and `_asynchronous_`.
 "use strict";function _defineProperty(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}!function(e){function t(e,t){try{var r=Object.prototype.toString.call(e).slice(8).slice(0,-1).toLowerCase();return 2===arguments.length?"string"==typeof t&&(t=t.toLowerCase(),r==t):r}catch(e){return!1}}function r(e){try{if(!t(e,"Object"))return[];var r=Object.keys(e);if(!r.length)return[];for(var n=[];r.length;)!function(){var i=r.pop(),a=e[i];a&&!t(a,"Array")&&(a=[a]),a.length&&(n=0===n.length?a.map(function(e){return _defineProperty({},i,e)}):n.map(function(e){return a.map(function(t){return Object.assign(_defineProperty({},i,t),e)})}).reduce(function(e,t){return e.concat(t)},[]))}();return n}catch(e){return[]}}if(!window.amp){e=e||{},Object.assign(e,window.ampConfig||{});for(var n=window.amp={replay:[],v:"1.0.2",ts:(new Date).getTime()},i="observe log".split(" "),a=0;a<i.length;a++)!function(e){n[e]=function(){for(var t=arguments.length,r=Array(t),i=0;i<t;i++)r[i]=arguments[i];n.replay.push([e,r,(new Date).getTime()])}}(i[a]);n.decide=function(e,i,a,o){return t(i,"object")&&(i=r(i)),(i=t(i,"array")?i.slice(0,1):[]).length>50?(o&&"function"==typeof o&&o(new Error("Candidate length must be less than or equal to 50."),i[0]),i[0]):(n.replay.push(["decide",arguments,(new Date).getTime()]),i[0])};var o=document,c=o.getElementsByTagName("script")[0],u=o.createElement("script");c.parentNode.insertBefore(u,c),u.type="text/javascript",u.async=!0,u.src=e.scriptSrc||(e.domain||"https://amp.ai")+"/libs/"+(e.key||"amp.min")+".js"}}({key:"<AMP-PROJECT-KEY>"});
 </script>
 <script>  
+  let color;
+  let font;
   amp.observe("userInfo",{lang:"en", country:"china", premium:false});   
   amp.decide("pickStyle",{
     color:["red","green","yellow"],
     font:["bold","italic","regular"]
   }, function(err, decision) {
-    const color = decision.color;  
-    const font = decision.font;
+    color = decision.color;  
+    font = decision.font;
   });    
 </script>
 ```
