@@ -93,11 +93,13 @@ There are three initialization choices: `_synchronous_` and `_asynchronous_`.
 </script>
 <script>  
   amp.observe("userInfo",{lang:"en", country:"china", premium:false});   
-  const decision = amp.decide("pickStyle",{
+  amp.decide("pickStyle",{
     color:["red","green","yellow"],
     font:["bold","italic","regular"]
+  }, function(err, decision) {
+    const color = decision.color;  
+    const font = decision.font;
   });    
-  const color = decision.color;  const font = decision.font;
 </script>
 ```
 
