@@ -1,5 +1,5 @@
 #
-# Amp-Browser Client Integration Instructions
+# Amp.ai-Browser Client Integration Instructions
 
 By Scaled Inference
 
